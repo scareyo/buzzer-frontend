@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:grpc/grpc.dart';
+import 'package:buzzer/proto/generated/buzzer.pbgrpc.dart';
 
 void main() {
   runApp(const BuzzerApp());
@@ -40,9 +42,29 @@ class BuzzerPage extends StatefulWidget {
 }
 
 class _BuzzerPageState extends State<BuzzerPage> {
+    
+    final ClientChannel channel = ClientChannel(
+        '10.0.2.2',
+        port: 50000,
+        options: ChannelOptions(
+            credentials: ChannelCredentials.insecure(),
+            codecRegistry:
+                CodecRegistry(codecs: const [GzipCodec(), IdentityCodec()]),
+        ),
+    );
 
-    void _buttonPressed() {
-        _showSnackbar("Hey, you pressed the button!");
+    void _buttonPressed() async {
+        final stub = BuzzerClient(channel);
+
+        try {
+            var response = await stub.openDoor(
+                OpenDoorRequest()..message = "Hello!",
+                options: CallOptions(compression: const GzipCodec()),
+            );
+            _showSnackbar("Reply received: ${response.message}");
+        } catch (e) {
+            print("Caught error: $e");
+        }
     }
 
     void _showSnackbar(String message) {
