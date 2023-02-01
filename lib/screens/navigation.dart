@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:buzzer/screens/buzzer.dart';
+import 'package:buzzer/screens/settings.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation({super.key});
@@ -17,10 +18,7 @@ class _NavigationState extends State<Navigation> {
     BuzzerPage(
       title: "Buzzer"
     ),
-    Text(
-      'Settings',
-      style: optionStyle,
-    ),
+    SettingsPage(), 
   ];
 
   void _onItemTapped(int index) {
