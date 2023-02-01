@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:grpc/grpc.dart';
-import 'package:buzzer/proto/generated/buzzer.pbgrpc.dart';
+import 'package:buzzer/proto/buzzer.pbgrpc.dart';
 
 class BuzzerPage extends StatefulWidget {
     const BuzzerPage({super.key, required this.title});
